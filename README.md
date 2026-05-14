@@ -1,6 +1,19 @@
-# PBM 2026 Product Catalog App
+<img width="500" height="599" alt="image" src="https://github.com/user-attachments/assets/37e0cced-7bf1-42a7-a2c3-1227cc085fe7" /># TUGAS PBM PRAKTIKUM 2026
 
 Aplikasi Flutter sederhana untuk tugas praktikum Pemrograman Berbasis Mobile 2026. Aplikasi ini digunakan untuk login, mengelola draft produk, dan submit link repository GitHub.
+
+## UI
+- LOGIN
+<img width="497" height="648" alt="image" src="https://github.com/user-attachments/assets/0715e228-a467-4828-9768-590429ea6be1" />
+
+- HOME SCREEN
+<img width="500" height="599" alt="image" src="https://github.com/user-attachments/assets/0522a022-4232-481f-93ce-476e8ac01237" />
+
+- ADD PRODUCT
+<img width="493" height="645" alt="image" src="https://github.com/user-attachments/assets/18111f36-2078-44f7-8fb4-d5f7198983b5" />
+
+- SUBMIT TASK
+<img width="496" height="643" alt="image" src="https://github.com/user-attachments/assets/aec2d831-6a91-4d45-8d35-c6f6de880270" />
 
 ## Fitur
 
@@ -77,11 +90,4 @@ lib/
   main.dart
 ```
 
-## Verifikasi
-
-Perintah pengecekan:
-
-```bash
-flutter analyze
-flutter test
 ```
