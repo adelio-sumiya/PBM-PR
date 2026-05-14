@@ -1,5 +1,4 @@
-## TUGAS PBM PRAKTIKUM 2026
-by : Adelio Frizky - 242410102064
+## TUGAS PBM PRAKTIKUM 2026 `by : Adelio Frizky - 242410102064`
 Aplikasi Flutter sederhana untuk tugas praktikum Pemrograman Berbasis Mobile 2026. Aplikasi ini digunakan untuk login, mengelola draft produk, dan submit link repository GitHub.
 
 
