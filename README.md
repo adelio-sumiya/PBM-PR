@@ -1,17 +1,87 @@
-# pbm_app
+# PBM 2026 Product Catalog App
 
-A new Flutter project.
+Aplikasi Flutter sederhana untuk tugas praktikum Pemrograman Berbasis Mobile 2026. Aplikasi ini digunakan untuk login, mengelola draft produk, dan submit link repository GitHub.
 
-## Getting Started
+## Fitur
 
-This project is a starting point for a Flutter application.
+- Login menggunakan username dan password NIM.
+- Menyimpan token autentikasi dengan `flutter_secure_storage`.
+- Menampilkan daftar draft produk dari API.
+- Menambahkan produk baru.
+- Menghapus produk secara soft delete.
+- Submit tugas menggunakan link repository GitHub.
+- UI sederhana dengan tema biru minimalis.
 
-A few resources to get you started if this is your first Flutter project:
+## Teknologi
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Flutter
+- Dart
+- Package `http`
+- Package `flutter_secure_storage`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## API
+
+Base URL:
+
+```text
+https://task.itprojects.web.id/api
+```
+
+Endpoint yang digunakan:
+
+- `POST /auth/login`
+- `GET /products`
+- `POST /products`
+- `DELETE /products/{id}`
+- `POST /products/submit`
+
+Semua request setelah login menggunakan header:
+
+```text
+Authorization: Bearer TOKEN
+Content-Type: application/json
+Accept: application/json
+```
+
+## Cara Menjalankan
+
+1. Install dependency:
+
+```bash
+flutter pub get
+```
+
+2. Jalankan aplikasi:
+
+```bash
+flutter run
+```
+
+3. Login menggunakan NIM sebagai username dan password.
+
+## Struktur Folder Utama
+
+```text
+lib/
+  models/
+    product.dart
+    user.dart
+  screens/
+    login_screen.dart
+    home_screen.dart
+    add_product_screen.dart
+    submit_screen.dart
+  services/
+    auth_service.dart
+    api_service.dart
+  main.dart
+```
+
+## Verifikasi
+
+Perintah pengecekan:
+
+```bash
+flutter analyze
+flutter test
+```
