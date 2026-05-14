@@ -25,10 +25,13 @@ class ApiService {
         headers: headers,
       );
 
-      if (response.statusCode == 200) {
+      if (_isSuccessStatus(response.statusCode)) {
         final data = jsonDecode(response.body);
-        final List dynamicList = data['data'] ?? data;
-        return dynamicList.map((json) => Product.fromJson(json)).toList();
+        final dynamicList = _extractProductList(data);
+        return dynamicList
+            .whereType<Map<String, dynamic>>()
+            .map(Product.fromJson)
+            .toList();
       } else {
         throw Exception('Failed to load products: ${response.body}');
       }
@@ -36,6 +39,23 @@ class ApiService {
       debugPrint('Get products error: $e');
       return [];
     }
+  }
+
+  List<dynamic> _extractProductList(dynamic data) {
+    if (data is List) return data;
+
+    if (data is Map<String, dynamic>) {
+      for (final key in ['data', 'products', 'items', 'records']) {
+        final value = data[key];
+        if (value is List) return value;
+        if (value is Map<String, dynamic>) {
+          final nestedList = _extractProductList(value);
+          if (nestedList.isNotEmpty) return nestedList;
+        }
+      }
+    }
+
+    return [];
   }
 
   Future<bool> addProduct(String name, int price, String description) async {
@@ -51,7 +71,13 @@ class ApiService {
         }),
       );
 
-      return response.statusCode == 201 || response.statusCode == 200;
+      final success = _isSuccessStatus(response.statusCode);
+      if (!success) {
+        debugPrint(
+          'Add product failed: ${response.statusCode} ${response.body}',
+        );
+      }
+      return success;
     } catch (e) {
       debugPrint('Add product error: $e');
       return false;
@@ -66,36 +92,42 @@ class ApiService {
         headers: headers,
       );
 
-      return response.statusCode == 200 || response.statusCode == 204;
+      final success = _isSuccessStatus(response.statusCode);
+      if (!success) {
+        debugPrint(
+          'Delete product failed: ${response.statusCode} ${response.body}',
+        );
+      }
+      return success;
     } catch (e) {
       debugPrint('Delete product error: $e');
       return false;
     }
   }
 
-  Future<bool> submitTask({
-    required String name,
-    required int price,
-    required String description,
-    required String githubUrl,
-  }) async {
+  Future<bool> submitTask(String githubUrl) async {
     try {
       final headers = await _getHeaders();
       final response = await http.post(
         Uri.parse('$baseUrl/products/submit'),
         headers: headers,
-        body: jsonEncode({
-          'name': name,
-          'price': price,
-          'description': description,
-          'github_url': githubUrl,
-        }),
+        body: jsonEncode({'github_url': githubUrl}),
       );
 
-      return response.statusCode == 200 || response.statusCode == 201;
+      final success = _isSuccessStatus(response.statusCode);
+      if (!success) {
+        debugPrint(
+          'Submit task failed: ${response.statusCode} ${response.body}',
+        );
+      }
+      return success;
     } catch (e) {
       debugPrint('Submit task error: $e');
       return false;
     }
+  }
+
+  bool _isSuccessStatus(int statusCode) {
+    return statusCode >= 200 && statusCode < 300;
   }
 }

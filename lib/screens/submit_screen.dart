@@ -9,47 +9,23 @@ class SubmitScreen extends StatefulWidget {
 }
 
 class _SubmitScreenState extends State<SubmitScreen> {
-  final _nameController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _descriptionController = TextEditingController();
   final _githubLinkController = TextEditingController();
   final _apiService = ApiService();
   bool _isLoading = false;
 
   void _submitTask() async {
-    final name = _nameController.text.trim();
-    final priceText = _priceController.text.trim();
-    final description = _descriptionController.text.trim();
     final githubLink = _githubLinkController.text.trim();
 
-    if (name.isEmpty ||
-        priceText.isEmpty ||
-        description.isEmpty ||
-        githubLink.isEmpty) {
+    if (githubLink.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
-      return;
-    }
-
-    final price = int.tryParse(priceText);
-    if (price == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter a valid whole-number price'),
-        ),
-      );
+      ).showSnackBar(const SnackBar(content: Text('Please enter GitHub link')));
       return;
     }
 
     setState(() => _isLoading = true);
 
-    final success = await _apiService.submitTask(
-      name: name,
-      price: price,
-      description: description,
-      githubUrl: githubLink,
-    );
+    final success = await _apiService.submitTask(githubLink);
     if (!mounted) return;
     setState(() => _isLoading = false);
 
@@ -87,36 +63,10 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  'Make sure the product data and GitHub link are correct.',
+                  'Make sure your GitHub repository link is correct.',
                   style: TextStyle(color: Color(0xFF64748B)),
                 ),
                 const SizedBox(height: 24),
-                TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Product Name',
-                    prefixIcon: Icon(Icons.shopping_bag_outlined),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                    prefixIcon: Icon(Icons.payments_outlined),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    prefixIcon: Icon(Icons.notes_outlined),
-                  ),
-                  maxLines: 4,
-                ),
-                const SizedBox(height: 16),
                 TextField(
                   controller: _githubLinkController,
                   decoration: const InputDecoration(
@@ -146,9 +96,6 @@ class _SubmitScreenState extends State<SubmitScreen> {
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    _descriptionController.dispose();
     _githubLinkController.dispose();
     super.dispose();
   }
