@@ -1,5 +1,4 @@
-<img width="500" height="599" alt="image" src="https://github.com/user-attachments/assets/37e0cced-7bf1-42a7-a2c3-1227cc085fe7" /># TUGAS PBM PRAKTIKUM 2026
-
+## TUGAS PBM PRAKTIKUM 2026
 Aplikasi Flutter sederhana untuk tugas praktikum Pemrograman Berbasis Mobile 2026. Aplikasi ini digunakan untuk login, mengelola draft produk, dan submit link repository GitHub.
 
 ## UI
